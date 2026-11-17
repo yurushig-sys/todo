@@ -1,0 +1,102 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>TODO</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <main class="app">
+    <header class="app-header">
+      <h1>TODO</h1>
+      <p class="summary" id="summary" aria-live="polite"></p>
+      <div class="progress" aria-hidden="true"><div class="progress-bar" id="progress-bar"></div></div>
+    </header>
+
+    <form id="new-task-form" class="new-task" autocomplete="off">
+      <input id="new-title" class="input title-input" type="text" maxlength="200"
+             placeholder="やることを入力して Enter" aria-label="新しいタスク" autofocus>
+      <div class="new-task-options">
+        <label class="field">期限
+          <input id="new-due" class="input" type="date">
+        </label>
+        <label class="field">優先度
+          <select id="new-priority" class="input">
+            <option value="high">高</option>
+            <option value="medium" selected>中</option>
+            <option value="low">低</option>
+          </select>
+        </label>
+        <button type="submit" class="btn primary">追加</button>
+      </div>
+    </form>
+
+    <section class="toolbar" aria-label="表示の切り替え">
+      <div class="filters">
+        <button type="button" class="chip" data-filter="all">すべて</button>
+        <button type="button" class="chip" data-filter="active">未完了</button>
+        <button type="button" class="chip" data-filter="done">完了</button>
+      </div>
+      <div class="toolbar-right">
+        <input id="search" class="input" type="search" placeholder="検索" aria-label="タスクを検索">
+        <select id="sort" class="input" aria-label="並び順">
+          <option value="created">新しい順</option>
+          <option value="due">期限が近い順</option>
+          <option value="priority">優先度順</option>
+        </select>
+      </div>
+    </section>
+
+    <ul id="task-list" class="task-list"></ul>
+    <p id="empty" class="empty" hidden></p>
+
+    <footer class="app-footer">
+      <span class="hint">ダブルクリックで編集 ・ Esc でキャンセル</span>
+      <button id="clear-done" type="button" class="btn ghost">完了済みを削除</button>
+    </footer>
+  </main>
+
+  <div id="toast" class="toast" role="status" hidden>
+    <span id="toast-msg"></span>
+    <button id="toast-undo" type="button" class="btn ghost">元に戻す</button>
+  </div>
+
+  <template id="task-template">
+    <li class="task">
+      <input type="checkbox" class="task-check" aria-label="完了">
+      <div class="task-body">
+        <span class="task-title"></span>
+        <div class="task-meta">
+          <span class="badge priority"></span>
+          <span class="due"></span>
+        </div>
+      </div>
+      <div class="task-actions">
+        <button type="button" class="icon-btn" data-action="edit" title="編集" aria-label="編集">✎</button>
+        <button type="button" class="icon-btn danger" data-action="delete" title="削除" aria-label="削除">✕</button>
+      </div>
+    </li>
+  </template>
+
+  <template id="edit-template">
+    <li class="task editing">
+      <form class="edit-form">
+        <input class="input title-input edit-title" type="text" maxlength="200" aria-label="タスク名" required>
+        <div class="new-task-options">
+          <input class="input edit-due" type="date" aria-label="期限">
+          <select class="input edit-priority" aria-label="優先度">
+            <option value="high">高</option>
+            <option value="medium">中</option>
+            <option value="low">低</option>
+          </select>
+          <button type="submit" class="btn primary">保存</button>
+          <button type="button" class="btn ghost" data-action="cancel">キャンセル</button>
+        </div>
+      </form>
+    </li>
+  </template>
+
+  <script src="app.js"></script>
+</body>
+</html>
